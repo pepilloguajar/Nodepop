@@ -27,7 +27,13 @@ router.post('/add', function (req, res, next) {
     let email = req.body.email;
     let pass = req.body.pass;
 
-
+    if(!isValidEmail(email)){
+        res.json({
+            success:false,
+            msg: 'Error en el formato del email'
+        });
+        return;
+    }
     let user = new Usuario({
         name: nombre,
         email: email,
@@ -49,5 +55,11 @@ router.post('/add', function (req, res, next) {
 
 
 });
+
+
+function isValidEmail(mail)
+{
+    return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(mail);
+}
 
 module.exports = router;
