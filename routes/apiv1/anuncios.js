@@ -11,16 +11,50 @@ var Anuncio = mongoose.model('Anuncio');
 
 // Cargo el listado de anuncios
 router.get('/', function (req,res,next) {
-    Anuncio.find().exec(function (err,anuncios) {
-        if(err){
-            next(err);
-            return;
+
+    let name = req.query.nombre;
+    let venta = req.query.venta;
+    let tag = req.query.tag;
+    let precio = req.query.precio;
+    let sort = req.query.sort || null;
+    let limit = parseInt(req.query.limit) || null;
+
+    let filter ={};
+
+    if(typeof name !== 'undefined'){
+        filter.nombre = new RegExp("^" + name, "i");
+    }
+    if (typeof venta !== 'undefined' ){
+        filter.venta = venta;
+    }
+    if(typeof tag !== 'undefined'){
+        filter.tags = tag;
+    }
+    if(typeof precio !== 'undefined'){
+        let posicion = precio.indexOf('-');
+        if(posicion === -1){
+            filter.precio =  precio ;
+        }else if(posicion === 0){
+            precio = precio.replace('-','');
+            filter.precio = { $lte: precio };
+        }else if(posicion === precio.length-1){
+            precio = precio.replace('-','');
+            filter.precio = { $gte: precio };
+        }else{
+            let min = precio.substr(0, posicion);
+            let max = precio.substr(posicion +1, precio.length-1);
+            filter.precio = { $gte: min, $lte: max };
         }
-        res.json({
-            success:true,
-            anuncios: anuncios
-        });
-    })
+    }
+
+    Anuncio.list(filter, sort, limit)
+        .then(function (anuncios) {
+            res.json({
+                success:true,
+                anuncios: anuncios
+            });
+        }).catch(next);
+
 });
 
 // Añado anuncios -- sólo para añadir anuncios de prueba
