@@ -12,4 +12,6 @@ let usuarioSchema = mongoose.Schema({
     pass: String
 });
 
+usuarioSchema.index({email:1}, {unique:true});
+
 var Usuario = mongoose.model('Usuario',usuarioSchema);
