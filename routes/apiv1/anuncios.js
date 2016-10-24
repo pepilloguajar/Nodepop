@@ -18,6 +18,7 @@ router.get('/', function (req,res,next) {
     let precio = req.query.precio;
     let sort = req.query.sort || null;
     let limit = parseInt(req.query.limit) || null;
+    let lang = req.query.lang || 'es';
 
     let filter ={};
 
@@ -53,7 +54,12 @@ router.get('/', function (req,res,next) {
                 success:true,
                 anuncios: anuncios
             });
-        }).catch(next);
+        }).catch(res.json({
+            success:false,
+            code:20702,
+            msg: mensajesErr[20709][lang]
+            })
+        );
 
 });
 

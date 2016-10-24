@@ -5,6 +5,7 @@
 var express = require('express');
 var router = express.Router();
 var sha256 = require('sha256');
+var mensajesErr = require('../../lib/customError');
 
 var mongoose = require('mongoose');
 var Usuario = mongoose.model('Usuario');
@@ -26,11 +27,39 @@ router.post('/add', function (req, res, next) {
     let nombre = req.body.name;
     let email = req.body.email;
     let pass = req.body.pass;
+    let lang = req.body.lang || 'es';
+
+    if(typeof nombre === 'undefined' || nombre ===''){
+        res.json({
+            success:false,
+            code:20701,
+            msg: mensajesErr[20701][lang]
+        });
+        return;
+    }
+    if(typeof email === 'undefined' || email ===''){
+        res.json({
+            success:false,
+            code:20702,
+            msg: mensajesErr[20702][lang]
+        });
+        return;
+    }
+
+    if(typeof pass === 'undefined' || pass ===''){
+        res.json({
+            success:false,
+            code:20703,
+            msg: mensajesErr[20703][lang]
+        });
+        return;
+    }
 
     if(!isValidEmail(email)){
         res.json({
             success:false,
-            msg: 'Error en el formato del email'
+            code:20707,
+            msg: mensajesErr[20707][lang]
         });
         return;
     }
@@ -44,9 +73,8 @@ router.post('/add', function (req, res, next) {
        if(err){
            res.json({
                success:false,
-               error: err
+               error: err['code']===11000 ? mensajesErr[20708][lang] : err
            });
-           //next(err);
            return;
        }
        console.log('Ususario guardado');
