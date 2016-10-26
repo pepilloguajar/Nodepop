@@ -8,6 +8,11 @@ var router = express.Router();
 
 var mongoose = require('mongoose');
 var Anuncio = mongoose.model('Anuncio');
+var mensajesErr = require('../../lib/customError');
+
+var jwtAuth = require('../../lib/jwtAuth');
+
+router.use(jwtAuth());
 
 // Cargo el listado de anuncios
 router.get('/', function (req,res,next) {
@@ -54,11 +59,14 @@ router.get('/', function (req,res,next) {
                 success:true,
                 anuncios: anuncios
             });
-        }).catch(res.json({
-            success:false,
-            code:20702,
-            msg: mensajesErr[20709][lang]
-            })
+        }).catch(function () {
+                res.json({
+                    success:false,
+                    code:20709,
+                    msg: mensajesErr[20709][lang]
+                })
+            }
+
         );
 
 });

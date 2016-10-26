@@ -10,6 +10,71 @@ var mensajesErr = require('../../lib/customError');
 var mongoose = require('mongoose');
 var Usuario = mongoose.model('Usuario');
 
+var jwt = require('jsonwebtoken');
+
+var jwtAuth = require('../../lib/jwtAuth');
+
+router.post('/login',function (req,res,next) {
+    let user = req.body.user;
+    let pass = req.body.pass;
+
+    if(!isValidEmail(user)) {
+        res.json({
+            success: false,
+            code: 20707,
+            msg: mensajesErr[20707]['es']
+        });
+        return;
+    }
+    // Busco al usuario en la BBDD
+    Usuario.findOne({email: user}).exec(function (err,usuario) {
+       if(err) {
+           res.json({
+               success: false,
+               code: 20709,
+               msg: mensajesErr[20709]['es']
+           });
+           return;
+       }
+       console.log('Usuario',usuario);
+        //compruebo que he encontrado algún usuario
+        if(usuario === null){
+            res.json({
+                success: false,
+                code: 20705,
+                msg: mensajesErr[20705]['es']
+            });
+            return;
+        }
+        //Compruebo contraseña
+        console.log('pass', usuario.pass);
+        console.log('pass', sha256(pass));
+       if(usuario.pass === sha256(pass)){
+
+           let token = jwt.sign({id: usuario.id},'123456', {
+               expiresIn:'7 days'
+           });
+
+           res.json({
+               success:true,
+               token:token
+           });
+       }else{
+           res.json({
+               success: false,
+               code: 20705,
+               msg: mensajesErr[20705]['en']
+           });
+       }
+
+    });
+
+
+
+});
+
+router.use(jwtAuth());
+
 //Listar usuarios  -- solo admin
 router.get('/', function(req, res, next) {
     Usuario.find().exec(function (err,users) {
