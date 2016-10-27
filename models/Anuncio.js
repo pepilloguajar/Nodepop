@@ -3,10 +3,11 @@
  */
 
 "use strict";
+var configUsers = require('../configUsers');
 
-let mongoose = require('mongoose');
+var mongoose = require('mongoose');
 
-let anuncioSchema = mongoose.Schema({
+var anuncioSchema = mongoose.Schema({
     nombre: String,
     venta: Boolean,
     precio: Number,
@@ -26,7 +27,19 @@ anuncioSchema.statics.list = function (filter, sort, limit) {
                reject(err);
                return;
            }
-           resolve(result);
+           let anuncios = [];
+           for(let i =0; i<result.length;i++){
+               anuncios.push({
+                   "nombre": result[i].nombre,
+                   "venta": result[i].venta,
+                   "precio": result[i].precio,
+                   "fotoAbs": configUsers.base_Url+'/images/'+result[i].foto,
+                   "foto": '/images/'+result[i].foto,
+                   "tags": result[i].tags
+               })
+           }
+
+           resolve(anuncios);
         });
     });
 }
