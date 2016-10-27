@@ -40,69 +40,69 @@ client.connect('mongodb://localhost:27017/nodepop', function(err, db) {
             nombre: "Iphone 6S",
             venta: true,
             precio: 500,
-            foto: "iphone6s.js",
+            foto: "iphone6s.jpg",
             tags: [ "lifestyle", "mobile"]
         },
         {
             nombre: "Iphone 5",
             venta: true,
             precio: 500,
-            foto: "iphone6s.js",
+            foto: "iphone5.jpg",
             tags: [ "lifestyle", "mobile"]
         },
         {
             nombre: "Iphone 3GS",
             venta: true,
             precio: 200,
-            foto: "iphone3gs.js",
+            foto: "iphone3gs.jpg",
             tags: [ "lifestyle", "mobile", "retro"]
         },
         {
             nombre: "Bicicleta",
             venta: true,
             precio: 125,
-            foto: "bicicleta.js",
+            foto: "bicicleta.jpg",
             tags: [ "lifestyle", "sport", "enjoy"]
         },{
 
             nombre: "Moto",
             venta: true,
             precio: 1500,
-            foto: "motosuzuki.js",
+            foto: "motosuzuki.jpg",
             tags: [ "suzuki", "motor", "enjoy"]
         },
         {
             nombre: "Coche Golf",
             venta: true,
             precio: 6000,
-            foto: "golf.js",
+            foto: "golf.jpg",
             tags: [  "motor", "travel"]
         },
         {
             nombre: "Iphone 6S",
             venta: false,
             precio: 400,
-            foto: "iphone6s2.js",
+            foto: "iphone6s2.jpg",
             tags: [ "lifestyle", "mobile"]
         },
         {
             nombre: "Samsung Note 7",
             venta: false,
             precio: 5,
-            foto: "note.js",
+            foto: "note.jpg",
             tags: [ "lifestyle", "mobile", "explosion"]
         },
         {
             nombre: "Piruleta",
             venta: false,
             precio: 2,
-            foto: "piruleta.js",
+            foto: "piruleta.jpg",
             tags: [ "eat", "child"]
         },{
             nombre: "MacBook Pro 13",
             venta: true,
             precio: 500,
-            foto: "iphone6s.js",
+            foto: "macbookpro13.jpg",
             tags: [ "lifestyle", "oficce", "tecnology"]
         },
     ],function (err, result) {

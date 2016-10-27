@@ -14,15 +14,19 @@ var jwt = require('jsonwebtoken');
 
 var jwtAuth = require('../../lib/jwtAuth');
 
+var configUsers = require('../../configUsers');
+
+
 router.post('/login',function (req,res,next) {
     let user = req.body.user;
     let pass = req.body.pass;
+    let lang = req.body.lang || configUsers.language;
 
     if(!isValidEmail(user)) {
         res.json({
             success: false,
             code: 20707,
-            msg: mensajesErr[20707]['es']
+            msg: mensajesErr[20707][lang]
         });
         return;
     }
@@ -32,7 +36,7 @@ router.post('/login',function (req,res,next) {
            res.json({
                success: false,
                code: 20709,
-               msg: mensajesErr[20709]['es']
+               msg: mensajesErr[20709][lang]
            });
            return;
        }
@@ -42,7 +46,7 @@ router.post('/login',function (req,res,next) {
             res.json({
                 success: false,
                 code: 20705,
-                msg: mensajesErr[20705]['es']
+                msg: mensajesErr[20705][lang]
             });
             return;
         }
@@ -51,7 +55,7 @@ router.post('/login',function (req,res,next) {
         console.log('pass', sha256(pass));
        if(usuario.pass === sha256(pass)){
 
-           let token = jwt.sign({id: usuario.id},'123456', {
+           let token = jwt.sign({id: usuario.id},configUser.jwt, {
                expiresIn:'7 days'
            });
 
@@ -63,7 +67,7 @@ router.post('/login',function (req,res,next) {
            res.json({
                success: false,
                code: 20705,
-               msg: mensajesErr[20705]['en']
+               msg: mensajesErr[20705][lang]
            });
        }
 
@@ -92,7 +96,7 @@ router.post('/add', function (req, res, next) {
     let nombre = req.body.name;
     let email = req.body.email;
     let pass = req.body.pass;
-    let lang = req.body.lang || 'es';
+    let lang = req.body.lang || configUsers.language;
 
     if(typeof nombre === 'undefined' || nombre ===''){
         res.json({

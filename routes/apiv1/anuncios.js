@@ -11,6 +11,8 @@ var Anuncio = mongoose.model('Anuncio');
 var mensajesErr = require('../../lib/customError');
 
 var jwtAuth = require('../../lib/jwtAuth');
+var configUsers = require('../../configUsers');
+
 
 router.use(jwtAuth());
 
@@ -23,7 +25,7 @@ router.get('/', function (req,res,next) {
     let precio = req.query.precio;
     let sort = req.query.sort || null;
     let limit = parseInt(req.query.limit) || null;
-    let lang = req.query.lang || 'es';
+    let lang = req.query.lang || configUsers.language;
 
     let filter ={};
 
