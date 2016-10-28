@@ -17,7 +17,7 @@ var configUsers = require('../../configUsers');
 router.use(jwtAuth());
 
 // Cargo el listado de anuncios
-router.get('/', function (req,res,next) {
+router.get('/', function (req,res) {
 
     let name = req.query.nombre;
     let venta = req.query.venta;

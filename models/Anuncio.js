@@ -42,6 +42,6 @@ anuncioSchema.statics.list = function (filter, sort, limit) {
            resolve(anuncios);
         });
     });
-}
+};
 
 let Anuncio = mongoose.model('Anuncio', anuncioSchema);

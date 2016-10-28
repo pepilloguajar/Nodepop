@@ -15,14 +15,15 @@ var jwt = require('jsonwebtoken');
 var jwtAuth = require('../../lib/jwtAuth');
 
 var configUsers = require('../../configUsers');
+var utils = require('../../lib/utils');
 
 
-router.post('/login',function (req,res,next) {
+router.post('/login',function (req,res) {
     let user = req.body.user;
     let pass = req.body.pass;
     let lang = req.body.lang || configUsers.language;
 
-    if(!isValidEmail(user)) {
+    if(!utils.isEmail(user)) {
         res.json({
             success: false,
             code: 20707,
@@ -55,7 +56,7 @@ router.post('/login',function (req,res,next) {
         console.log('pass', sha256(pass));
        if(usuario.pass === sha256(pass)){
 
-           let token = jwt.sign({id: usuario.id},configUser.jwt, {
+           let token = jwt.sign({id: usuario.id},configUsers.jwt, {
                expiresIn:'7 days'
            });
 
@@ -77,20 +78,8 @@ router.post('/login',function (req,res,next) {
 
 });
 
-router.use(jwtAuth());
 
-//Listar usuarios  -- solo admin
-router.get('/', function(req, res, next) {
-    Usuario.find().exec(function (err,users) {
-       if(err){
-           next(err);
-           return;
-       }
-       res.json({success:true, users:users});
-    });
-});
-
-router.post('/add', function (req, res, next) {
+router.post('/add', function (req, res) {
 
     // Rescato los datos de usuario
     let nombre = req.body.name;
@@ -124,7 +113,7 @@ router.post('/add', function (req, res, next) {
         return;
     }
 
-    if(!isValidEmail(email)){
+    if(!utils.isEmail(email)){
         res.json({
             success:false,
             code:20707,
@@ -139,24 +128,35 @@ router.post('/add', function (req, res, next) {
     });
 
     user.save(function (err, userSave) {
-       if(err){
-           res.json({
-               success:false,
-               error: err['code']===11000 ? mensajesErr[20708][lang] : err
-           });
-           return;
-       }
-       console.log('Ususario guardado');
-       res.json({success:true, user:userSave});
+        if(err){
+            res.json({
+                success:false,
+                error: err['code']===11000 ? mensajesErr[20708][lang] : err
+            });
+            return;
+        }
+        console.log('Ususario guardado');
+        res.json({success:true, user:userSave});
     });
 
 
 });
 
+router.use(jwtAuth());
 
-function isValidEmail(mail)
-{
-    return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(mail);
-}
+//Listar usuarios  -- solo admin
+router.get('/', function(req, res, next) {
+    Usuario.find().exec(function (err,users) {
+       if(err){
+           next(err);
+           return;
+       }
+       res.json({success:true, users:users});
+    });
+});
+
+
+
+
 
 module.exports = router;
