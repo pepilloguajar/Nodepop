@@ -141,7 +141,7 @@ router.post('/add', function (req, res) {
 
 
 });
-
+/*
 router.use(jwtAuth());
 
 //Listar usuarios  -- solo admin
@@ -155,7 +155,7 @@ router.get('/', function(req, res, next) {
     });
 });
 
-
+*/
 
 
 

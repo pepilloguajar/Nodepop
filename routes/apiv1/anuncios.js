@@ -73,6 +73,25 @@ router.get('/', function (req,res) {
 
 });
 
+router.get('/tags',function (req,res) {
+    let lang = req.query.lang || configUsers.language;
+
+    Anuncio.listTags()
+        .then(function (tags) {
+            res.json({
+                success:true,
+                tags: tags
+            });
+        }).catch(function () {
+            res.json({
+                success:false,
+                code:20709,
+                msg: mensajesErr[20709][lang]
+            })
+    });
+});
+
+/*
 // Añado anuncios -- sólo para añadir anuncios de prueba
 router.post('/add', function (req,res,next) {
 
@@ -90,5 +109,6 @@ router.post('/add', function (req,res,next) {
     });
 
 });
+*/
 
 module.exports = router;
