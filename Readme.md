@@ -6,26 +6,21 @@ Aplicación que devuelve el listado de anuncios para ser mostrados desde cualqui
 
 La aplicación está desarrollada sobre la versión de Node 6.7.0. 
 
-Una vez clonado el repositorio ejecutar npm install
+Una vez clonado no colocarnos en el raiz del proyecto y ejecutamos ejecutar  ``` npm install ```
 
-Colocarnos en el raiz del proyecto.
 
 Lanzar fichero inicial de bbdd: 
 
 ```
-npm run install_db
+npm run installDB
 ```
 
-Arrancar aplicación: 
+Arrancar aplicación por defecto en el puerto 3000: 
 
 ```
 npm start
 ```
-También podemos usar Nomdeon si lo tenemos instalado:
 
-```
-nodemon
-```
 
 
 ***
@@ -200,8 +195,27 @@ POST /apiv1/users/login
 ```
 
 
+## Servidor de AWS - Nodepo desplegado en servidor
 
+La url base donde está subido el repositorio es:
 
+```
+http://nodepop.montesrjj.com
+```
+
+A partir de esta url podemos utililizar el API
+
+Para probar el login podéis utilizar las siguientes credenciales:
+```
+user --> admin@jjm.es
+pass --> 1234
+```
+
+Un ejemplo de archivo estático servido por nginx es el siguiente:
+
+```
+http://nodepop.montesrjj.com/images/iphone6s.jpg
+```
 
 
 
