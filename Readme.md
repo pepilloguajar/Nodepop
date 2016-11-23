@@ -217,5 +217,9 @@ Un ejemplo de archivo estático servido por nginx es el siguiente:
 http://nodepop.montesrjj.com/images/iphone6s.jpg
 ```
 
-
+También se puede visualizar el porfolio en el dominio:
+ 
+```
+http://montesrjj.com 
+```
 
